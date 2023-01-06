@@ -117,7 +117,7 @@ const LoginScreen = ({navigation}) => {
                   marginHorizontal: 'auto',
                   borderRadius: 5,
                 }}>
-                {isLoading ? <ActivityIndicator color={'#000'} /> : 'submit'}
+                {isLoading ? <ActivityIndicator color={'#fff'} /> : 'submit'}
               </Text>
             </Pressable>
           </View>
@@ -153,6 +153,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     marginBottom: 10,
+    borderWidth: 1,
+    borderStyle: 'solid',
     borderColor: '#333',
   },
 });

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, {useEffect, useState} from 'react';
+import React, {ActivityIndicator, useEffect, useState} from 'react';
 import {
   ImageBackground,
   StyleSheet,
@@ -8,8 +8,9 @@ import {
   ScrollView,
 } from 'react-native';
 import CardHome from '../../components/card';
+import Footer from '../../components/footer';
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -18,10 +19,7 @@ const HomeScreen = () => {
       .then(function (response) {
         setData(response.data.data);
       })
-      .catch(function (error) {
-        // handle error
-        console.log(error);
-      });
+      .catch(function (error) {});
   }, []);
 
   return (
@@ -42,9 +40,11 @@ const HomeScreen = () => {
 
         <View style={styles.boxCard}>
           {data.map((item, index) => (
-            <CardHome dataCard={item} key={index} />
+            <CardHome dataCard={item} key={index} navigation={navigation} />
           ))}
         </View>
+
+        <Footer />
       </View>
     </ScrollView>
   );

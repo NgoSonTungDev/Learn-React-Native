@@ -1,9 +1,13 @@
 import React from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 
-const CardHome = ({dataCard}) => {
+const CardHome = ({dataCard, navigation}) => {
   return (
-    <View style={styles.container}>
+    <Pressable
+      onPress={() => {
+        navigation.navigate('Product', {id: `${dataCard._id}`});
+      }}
+      style={styles.container}>
       <View style={styles.boxImage}>
         <Image
           style={{
@@ -12,7 +16,7 @@ const CardHome = ({dataCard}) => {
             resizeMode: 'cover',
           }}
           source={{
-            uri: `https:${dataCard.image[0]}`,
+            uri: `https:${dataCard.image?.shift()}`,
           }}
         />
       </View>
@@ -28,7 +32,7 @@ const CardHome = ({dataCard}) => {
           VND
         </Text>
       </View>
-    </View>
+    </Pressable>
   );
 };
 
