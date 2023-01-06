@@ -1,156 +1,54 @@
-import axios from 'axios';
+import 'react-native-gesture-handler';
 import React from 'react';
-import {
-  ActivityIndicator,
-  ImageBackground,
-  Keyboard,
-  KeyboardAvoidingView,
-  Platform,
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native';
-import Toast from 'react-native-toast-message';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import LoginScreen from './src/screens/login';
+import HomeScreen from './src/screens/home';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import {AiOutlineHome} from 'react-icons/ai';
 
-const image = {
-  uri: 'https://images.pexels.com/photos/2670898/pexels-photo-2670898.jpeg?auto=compress&cs=tinysrgb&w=600',
-};
+const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
+
 const App = () => {
-  const [user, onchangeUser] = React.useState('');
-  const [password, onchangePassword] = React.useState('');
-  const [isLoading, setIsLoading] = React.useState(false);
-
-  const handleLogin = () => {
-    setIsLoading(true);
-    if (user === '' || password === '') {
-      setIsLoading(false);
-      Toast.show({
-        type: 'error',
-        text1: 'Nhập username va password không được bỏ trống',
-        text2: 'Nhập username và password',
-        visibilityTime: 4000,
-        autoHide: true,
-      });
-    } else {
-      axios
-        .post('https://mafline-api.onrender.com/api/auth/login', {
-          username: user,
-          password: password,
-        })
-        .then(async function (response) {
-          setIsLoading(false);
-
-          Toast.show({
-            type: 'success',
-            text1: 'Đăng nhập thành công !!!',
-            visibilityTime: 4000,
-            autoHide: true,
-          });
-        })
-        .catch(function (error) {
-          setIsLoading(false);
-          Toast.show({
-            type: 'error',
-            text1: 'Sai user or password',
-            text2: 'vui lòng nhập lại !',
-            visibilityTime: 4000,
-            autoHide: true,
-          });
-          onchangePassword('');
-          onchangeUser('');
-        });
-    }
-  };
-
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.container}>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <ImageBackground
-          source={image}
-          resizeMode="cover"
-          style={styles.container}>
-          <View style={styles.boxLogin}>
-            <Text
-              style={{
-                textAlign: 'center',
-                marginBottom: 15,
-                fontSize: 20,
-                color: '#000',
-                fontWeight: '600',
-              }}>
-              ĐĂNG NHẬP
-            </Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Ten dang nhap"
-              onChangeText={onchangeUser}
-              value={user}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="mat khau"
-              onChangeText={onchangePassword}
-              value={password}
-            />
-
-            <Pressable
-              onPress={handleLogin}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-              }}>
-              <Text
-                style={{
-                  padding: 10,
-                  backgroundColor: '#0984e3',
-                  width: 100,
-                  textAlign: 'center',
-                  color: '#fff',
-                  marginHorizontal: 'auto',
-                  borderRadius: 5,
-                }}>
-                {isLoading ? <ActivityIndicator color={'#000'} /> : 'submit'}
-              </Text>
-            </Pressable>
-          </View>
-        </ImageBackground>
-      </TouchableWithoutFeedback>
-      <Toast position="top" bottomOffset={200} animating={false} />
-    </KeyboardAvoidingView>
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{headerShown: false}}>
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Login" component={LoginScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  boxLogin: {
-    marginHorizontal: 15,
-    borderRadius: 5,
-    backgroundColor: 'rgba(255,255,255,1)',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.23,
-    shadowRadius: 2.62,
-
-    elevation: 4,
-    padding: 15,
-  },
-  input: {
-    height: 40,
-    borderWidth: 1,
-    padding: 10,
-    marginBottom: 10,
-  },
-});
+// const App = () => {
+//   return (
+//     <NavigationContainer>
+//       <Tab.Navigator screenOptions={{headerShown: false}}>
+//         <Tab.Screen
+//           name="Home"
+//           component={HomeScreen}
+//           // options={{
+//           //   tabBarLabel: 'Home',
+//           //   tabBarIcon: ({color}) => (
+//           //     <AntDesign name="home" color={color} size={26} />
+//           //   ),
+//           // }}
+//         />
+//         <Tab.Screen
+//           name="Login"
+//           component={LoginScreen}
+//           // options={{
+//           //   tabBarLabel: 'Home',
+//           //   tabBarIcon: ({color}) => (
+//           //     <AntDesign name="home" color={color} size={26} />
+//           //   ),
+//           // }}
+//         />
+//       </Tab.Navigator>
+//     </NavigationContainer>
+//   );
+// };
 
 export default App;
